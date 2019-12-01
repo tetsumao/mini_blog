@@ -34,6 +34,9 @@ gem 'haml-rails'
 # 無限スクロール用
 gem 'kaminari'
 
+# ログイン機能
+gem 'devise'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

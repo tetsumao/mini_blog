@@ -2,13 +2,24 @@
 ja:
   activerecord:
     models:
-      post: '投稿'
+      post: 投稿
+      user: ユーザー
     attributes:
       post:
-        content: '投稿内容'
+        content: 投稿内容
+      user:
+        name: ユーザー
+        current_password: "現在のパスワード"
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "確認用パスワード"
+        remember_me: "次回から自動的にログイン"
+        user_name: ユーザー名
+        profile: プロフィール
+        blog_url: ブログURL
     errors:
       messages:
-        record_invalid: 'バリデーションに失敗しました: %{errors}'
+        record_invalid: "バリデーションに失敗しました: %{errors}"
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"

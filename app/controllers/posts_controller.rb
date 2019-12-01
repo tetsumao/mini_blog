@@ -1,19 +1,30 @@
 class PostsController < ApplicationController
+  # ログイン認証
+  before_action :authenticate_user!
 
-  # GET /posts
-  # GET /posts.json
+  # 全体タイムライン
   def index
       # ページングと降順指定
       @posts = Post.page(params[:page]).per(10).order(created_at: "DESC")
   end
 
-  # POST /posts.js
+  # 投稿
   def create
+    # 投稿生成
     @post = Post.new(post_params)
+    # ユーザIDはログインユーザ
+    @post.user_id = current_user.id
 
     # Ajax呼び出しのみ有効
     respond_to do |format|
       if @post.save
+        # 遷移元URLを取得
+        path = URI.parse(request.referer).path
+        recognized_path = Rails.application.routes.recognize_path(path)
+        # 全体タイムラインなら遷移先指定
+        if recognized_path[:controller] == 'posts' && recognized_path[:action] == 'index'
+          @transition_url = path
+        end
         format.js { render :create_success }
       else
         format.js { render :create_error }

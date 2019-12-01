@@ -4,5 +4,6 @@ $('#postClosebutton').trigger('click');
 $('#error_explanation').hide();
 -# 投稿内容クリア
 $('#post_content').val('');
--# リロード
-window.location.reload();
+-# URLがあれば遷移
+- if @transition_url.present?
+    window.location.href = "#{@transition_url}";
