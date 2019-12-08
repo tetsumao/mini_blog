@@ -8,6 +8,12 @@ class PostsController < ApplicationController
       @posts = Post.page(params[:page]).per(10).order(created_at: "DESC")
   end
 
+  # フォローしたユーザーのみのタイムライン
+  def followings
+      # ページングと降順指定
+      @posts = current_user.followings_posts.page(params[:page]).per(10).order(created_at: "DESC")
+  end
+
   # 投稿
   def create
     # 投稿生成

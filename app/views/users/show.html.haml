@@ -4,6 +4,7 @@
     = User.human_attribute_name :user_name
     ：
     = @user.user_name
+= render 'user_relations/follow_button', user: @user
 %p
     = User.human_attribute_name :profile
     ：

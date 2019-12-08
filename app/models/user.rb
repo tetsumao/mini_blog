@@ -12,6 +12,10 @@ class User < ApplicationRecord
   # 投稿との連携
   has_many :posts, dependent: :destroy
 
+  # ユーザ関連テーブルとの連携
+  has_many :user_relations
+  has_many :followings, through: :user_relations, source: :follow
+
   # emailの検証を無効化
   def email_required?
     false
@@ -29,4 +33,27 @@ class User < ApplicationRecord
   validates :profile, length: {maximum: 200}
   # ブログURL
   validates :blog_url, format: /\A(|#{URI::regexp(%w(http https))})\z/
+
+  # フォローの関係を追加・または取得する
+  def follow(user)
+    unless self.id == user.id
+      self.user_relations.find_or_create_by(follow_id: user.id)
+    end
+  end
+
+  # フォローを解除する
+  def unfollow(user)
+    user_relation = self.user_relations.find_by(follow_id: user.id)
+    user_relation.destroy if user_relation.present?
+  end
+
+  # フォローしている？
+  def following?(other_user)
+    self.followings.include?(other_user)
+  end
+
+  # フォローしているユーザの投稿一覧
+  def followings_posts
+    Post.where("user_id IN (?)", following_ids)
+  end
 end
