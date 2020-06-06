@@ -4,7 +4,6 @@ class UserRelation < ApplicationRecord
   # フォローユーザ
   belongs_to :follow, class_name: 'User'
 
-  # ユーザIDは必須
   validates :user_id, presence: true
   validates :follow_id, presence: true
 end
